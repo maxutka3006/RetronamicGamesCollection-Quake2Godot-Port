@@ -1,0 +1,25 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://cmgorf22sr4l2"
+path="res://.godot/imported/rgc_numhud.png-e261730c7e0a9e31cc7d03f8e4ad0ee4.fontdata"
+
+[deps]
+
+source_file="res://assets/ui_fonts/rgc_numhud.png"
+dest_files=["res://.godot/imported/rgc_numhud.png-e261730c7e0a9e31cc7d03f8e4ad0ee4.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("48-57")
+kerning_pairs=PackedStringArray()
+columns=11
+rows=1
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+ascent=0
+descent=0
+fallbacks=[]
+compress=false
+scaling_mode=0

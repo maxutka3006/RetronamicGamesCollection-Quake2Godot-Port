@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://gximw64bpgin"]
+
+[ext_resource type="Texture2D" uid="uid://duudeoncu5b3u" path="res://assets/models/weapons/grenade_rgc/gren_rgc_skin0.webp" id="1_uwsnk"]
+
+[resource]
+resource_name = "skin0"
+cull_mode = 2
+albedo_texture = ExtResource("1_uwsnk")
+metallic_specular = 0.0
+roughness = 0.0

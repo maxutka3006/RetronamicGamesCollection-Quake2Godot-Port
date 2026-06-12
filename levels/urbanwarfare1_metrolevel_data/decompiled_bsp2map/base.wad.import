@@ -1,0 +1,16 @@
+[remap]
+
+importer="func_godot.wad"
+type="Resource"
+uid="uid://wxk577cg2fy1"
+path="res://.godot/imported/base.wad-5dcd31d22747c75f89c14047b8286c42.res"
+
+[deps]
+
+source_file="res://levels/urbanwarfare1_metrolevel_data/decompiled_bsp2map/base.wad"
+dest_files=["res://.godot/imported/base.wad-5dcd31d22747c75f89c14047b8286c42.res"]
+
+[params]
+
+palette_file="res://addons/func_godot/palette.lmp"
+generate_mipmaps=true

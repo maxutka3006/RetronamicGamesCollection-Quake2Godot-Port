@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bxavq1ynn677o"]
+
+[ext_resource type="PackedScene" uid="uid://d0b7mhekrh13l" path="res://assets/models/weapons/beretta_rgc/beretta_rgc.glb" id="1_2c1j2"]
+[ext_resource type="Script" uid="uid://cmybb170reeyy" path="res://scripts/weapon.gd" id="2_6lqp0"]
+[ext_resource type="AudioStream" uid="uid://d2jte338kl7t6" path="res://assets/sounds/weapons/noammo.wav" id="2_vwrtw"]
+[ext_resource type="PackedScene" uid="uid://c83tkexsovc0q" path="res://assets/models/casingshell/casingshell.tscn" id="3_qks20"]
+[ext_resource type="PackedScene" uid="uid://chmwqf6um0f11" path="res://assets/models/impactdecal/impactdecal.tscn" id="4_jbrh0"]
+[ext_resource type="PackedScene" uid="uid://dfbux6tovs73h" path="res://assets/models/impactparticles/impactparticles.tscn" id="5_2xjgi"]
+[ext_resource type="AudioStream" uid="uid://1e0ns0eju7nl" path="res://assets/sounds/weapons/ric1.wav" id="7_epa8s"]
+[ext_resource type="AudioStream" uid="uid://d3mr548x7g0j5" path="res://assets/sounds/weapons/ric2.wav" id="8_08v77"]
+[ext_resource type="AudioStream" uid="uid://hnngwnyvuluj" path="res://assets/sounds/weapons/ric3.wav" id="9_p0gbd"]
+
+[node name="beretta_rgc" unique_id=1980472521 node_paths=PackedStringArray("model") instance=ExtResource("1_2c1j2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("2_6lqp0")
+fire_rate = 0.25
+max_magazine = 13
+reserve_ammo = 999
+automatic = true
+reload_time = 1.583
+casing_scene = ExtResource("3_qks20")
+impact_decal_scene = ExtResource("4_jbrh0")
+impact_particles_scene = ExtResource("5_2xjgi")
+bob_frequency = 1.0
+bob_amplitude_vertical = 0.0
+bob_amplitude_horizontal = 0.01
+bob_rotation_amplitude = 0.01
+muzzle_light_energy = 15.0
+muzzle_light_duration = 0.1
+casing_eject_velocity = 3.0
+casing_eject_direction = Vector3(1.5, 1.1, 2.5)
+no_ammo_sound = ExtResource("2_vwrtw")
+impact_sounds = Array[AudioStream]([ExtResource("7_epa8s"), ExtResource("8_08v77"), ExtResource("9_p0gbd")])
+impact_sound_chance = 0.75
+impact_particle_colors = Array[Color]([Color(1, 0.53333336, 0, 1), Color(0.53333336, 0.53333336, 0.53333336, 1), Color(0, 0, 0, 1), Color(1, 0.8, 0, 1)])
+model = NodePath("mesh0")
+
+[node name="mesh0" parent="." index="0" unique_id=352375280]
+blend_shapes/Key = 1.0
+
+[node name="AnimationPlayer" parent="." index="1" unique_id=679263060]
+autoplay = &"Idle"
+
+[node name="MuzzleLight" type="OmniLight3D" parent="." index="2" unique_id=1588797863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37854853, 0.17849946, 0.081259154)
+light_color = Color(0.98715967, 0.7183914, 1.540184e-06, 1)
+light_energy = 0.0
+light_specular = 0.0
+omni_range = 12.0
+
+[node name="CasingEjectPoint" type="Marker3D" parent="." index="3" unique_id=683552516]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0.18953413, 0.19124949, 0.08453969)
+
+[node name="WeaponSounds" type="AudioStreamPlayer3D" parent="." index="4" unique_id=19619542]
+
+[node name="NoAmmoAudio" type="AudioStreamPlayer3D" parent="." index="5" unique_id=399541832]
+stream = ExtResource("2_vwrtw")

@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://cidx4eo0rlpda"]
+
+[ext_resource type="Script" uid="uid://cfqwvlbgeowfa" path="res://scripts/menu.gd" id="1_g18jx"]
+[ext_resource type="Texture2D" uid="uid://bepo5pf3e35q3" path="res://menu/rgc_splashscreen_43.png" id="2_g18jx"]
+[ext_resource type="Texture2D" uid="uid://cg1q0hm766g7j" path="res://assets/powered_by_godot.svg" id="3_6nwqt"]
+[ext_resource type="AudioStream" uid="uid://cl2mn1shddmx3" path="res://assets/sounds/misc/menu1.wav" id="4_svuvw"]
+[ext_resource type="Script" uid="uid://cpypb0vtqg7u8" path="res://addons/button-audio-player/button_audio_player.gd" id="5_juveg"]
+[ext_resource type="AudioStream" uid="uid://ci11mllmmbfhw" path="res://assets/sounds/misc/menu2.wav" id="6_juveg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_juveg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v6yed"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s4hbh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6fswf"]
+
+[node name="Menu" type="Control" unique_id=551364377]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g18jx")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=418600661]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
+texture = ExtResource("2_g18jx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PoweredByGodot" type="TextureRect" parent="." unique_id=2131806099]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = 180.0
+offset_right = -92.79999
+offset_bottom = 304.20044
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_6nwqt")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=308391469]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -149.0
+offset_top = -46.0
+offset_right = 150.0
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 25
+
+[node name="StartGame" type="Button" parent="VBoxContainer" unique_id=438986334]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7877587, 0.7877594, 0.7877589, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_juveg")
+text = "Play Demo"
+
+[node name="ButtonAudioPlayer" type="AudioStreamPlayer" parent="VBoxContainer/StartGame" unique_id=205457326]
+stream = ExtResource("4_svuvw")
+script = ExtResource("5_juveg")
+audio_down = ExtResource("6_juveg")
+audio_mouse_entered = ExtResource("4_svuvw")
+audio_focus_entered = ExtResource("4_svuvw")
+metadata/_custom_type_script = "uid://cpypb0vtqg7u8"
+
+[node name="HelpCredits" type="Button" parent="VBoxContainer" unique_id=605135764]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.1755697, 0.96515715, 0, 1)
+theme_override_colors/font_focus_color = Color(0.96862745, 0.98039216, 0.6039216, 1)
+theme_override_colors/font_hover_color = Color(0.96757716, 0.9790724, 0.6041537, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_v6yed")
+text = "Help/Credits"
+
+[node name="ButtonAudioPlayer2" type="AudioStreamPlayer" parent="VBoxContainer/HelpCredits" unique_id=1127341613]
+stream = ExtResource("4_svuvw")
+script = ExtResource("5_juveg")
+audio_down = ExtResource("6_juveg")
+audio_mouse_entered = ExtResource("4_svuvw")
+audio_focus_entered = ExtResource("4_svuvw")
+metadata/_custom_type_script = "uid://cpypb0vtqg7u8"
+
+[node name="Quit" type="Button" parent="VBoxContainer" unique_id=1861994631]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5303897, 0.5303895, 0.53038955, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_s4hbh")
+text = "Quit"
+
+[node name="ButtonAudioPlayer3" type="AudioStreamPlayer" parent="VBoxContainer/Quit" unique_id=911326975]
+stream = ExtResource("4_svuvw")
+script = ExtResource("5_juveg")
+audio_down = ExtResource("6_juveg")
+audio_up = ExtResource("6_juveg")
+audio_pressed = ExtResource("6_juveg")
+audio_mouse_entered = ExtResource("4_svuvw")
+audio_focus_entered = ExtResource("4_svuvw")
+metadata/_custom_type_script = "uid://cpypb0vtqg7u8"
+
+[node name="StartTestArena" type="Button" parent="." unique_id=1756014144]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 215.09998
+offset_top = 217.0
+offset_right = 384.10486
+offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.6706888, 0.67068976, 0.67068905, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6fswf")
+text = "Play (Test Arena)"
+
+[node name="ButtonAudioPlayer" type="AudioStreamPlayer" parent="StartTestArena" unique_id=267108065]
+stream = ExtResource("4_svuvw")
+script = ExtResource("5_juveg")
+audio_down = ExtResource("6_juveg")
+audio_mouse_entered = ExtResource("4_svuvw")
+audio_focus_entered = ExtResource("4_svuvw")
+metadata/_custom_type_script = "uid://cpypb0vtqg7u8"

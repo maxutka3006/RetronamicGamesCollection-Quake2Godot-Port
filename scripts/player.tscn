@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://pb6jpm7507b4"]
+
+[ext_resource type="Script" uid="uid://bts3xr7adslll" path="res://scripts/player_quakestyle_enhanced.gd" id="1_pqap4"]
+[ext_resource type="AudioStream" uid="uid://xj2yqbhmab5o" path="res://assets/sounds/player/foot1.wav" id="2_nxd4c"]
+[ext_resource type="AudioStream" uid="uid://cnqc6yfekcilx" path="res://assets/sounds/player/foot2.wav" id="3_o8o0x"]
+[ext_resource type="AudioStream" uid="uid://m4jojvgrlj38" path="res://assets/sounds/player/foot3.wav" id="4_0pev8"]
+[ext_resource type="AudioStream" uid="uid://8slthudhf338" path="res://assets/sounds/player/foot4.wav" id="5_fytk8"]
+[ext_resource type="AudioStream" uid="uid://belsadosgll5h" path="res://assets/sounds/player/foot5.wav" id="6_clacw"]
+[ext_resource type="AudioStream" uid="uid://vwj7fxy6c0n1" path="res://assets/sounds/demon/dland2.wav" id="7_0pev8"]
+[ext_resource type="PackedScene" uid="uid://c1lq7b5qtvxh6" path="res://scripts/hud.tscn" id="7_nxd4c"]
+[ext_resource type="PackedScene" uid="uid://c8ggjdgjadilh" path="res://assets/models/weapons/mp5_rgc/mp5_rgc.tscn" id="8_0pev8"]
+[ext_resource type="PackedScene" uid="uid://bxavq1ynn677o" path="res://assets/models/weapons/beretta_rgc/beretta_rgc.tscn" id="8_clacw"]
+[ext_resource type="PackedScene" uid="uid://cjvcqagyxc7rv" path="res://assets/models/weapons/knife_rgc/knife_rgc.tscn" id="12_clacw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2a05q"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_qux0b"]
+margin = 0.5
+slide_on_slope = true
+
+[node name="Player" type="CharacterBody3D" unique_id=668051215]
+floor_stop_on_slope = false
+floor_snap_length = 0.35
+safe_margin = 0.03
+script = ExtResource("1_pqap4")
+jump_velocity = 8.0
+headbob_frequency = 1.0
+headbob_amp_vertical = 0.1
+headbob_amp_horizontal = 0.1
+sway_enabled = false
+footstep_sounds = Array[AudioStream]([ExtResource("2_nxd4c"), ExtResource("3_o8o0x"), ExtResource("4_0pev8"), ExtResource("5_fytk8"), ExtResource("6_clacw")])
+footstep_distance = 4.0
+landing_sounds = Array[AudioStream]([ExtResource("7_0pev8")])
+landing_volume_db = -5.0
+camera_roll_max_angle_degrees = 2.5
+weapon_slot_names = Array[String](["mp5_rgc", "beretta_rgc", "knife_rgc"])
+starting_weapon_name = "beretta_rgc"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1066230820]
+shape = SubResource("CapsuleShape3D_2a05q")
+
+[node name="TWForThisShittyStairStepping" type="CollisionShape3D" parent="." unique_id=2094356198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, -0.43, -0.851)
+shape = SubResource("SeparationRayShape3D_qux0b")
+disabled = true
+
+[node name="Head" type="Node3D" parent="." unique_id=779282216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.3)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=88930222]
+fov = 90.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D" unique_id=156521483]
+enabled = false
+target_position = Vector3(0, 0, -100)
+
+[node name="Weapons" type="Node3D" parent="Head/Camera3D" unique_id=1862844264]
+
+[node name="mp5_rgc" parent="Head/Camera3D/Weapons" unique_id=1216678636 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_0pev8")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.03, 0, 0.055)
+visible = false
+player = NodePath("../../../..")
+camera = NodePath("../..")
+
+[node name="beretta_rgc" parent="Head/Camera3D/Weapons" unique_id=1980472521 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_clacw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.015, -0.22, 0.025)
+player = NodePath("../../../..")
+camera = NodePath("../..")
+
+[node name="knife_rgc" parent="Head/Camera3D/Weapons" unique_id=1523464899 node_paths=PackedStringArray("player", "camera", "model") instance=ExtResource("12_clacw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+visible = false
+knife_range = 4.0
+player = NodePath("../../../..")
+camera = NodePath("../..")
+model = NodePath("mesh0")
+
+[node name="FootstepAudio" type="AudioStreamPlayer3D" parent="." unique_id=1256411315]
+
+[node name="LandingAudio" type="AudioStreamPlayer3D" parent="." unique_id=1452420719]
+
+[node name="HUD" parent="." unique_id=1577912329 node_paths=PackedStringArray("ammo_container", "magazine_label", "reserve_label") instance=ExtResource("7_nxd4c")]
+ammo_container = NodePath("AmmoContainer")
+magazine_label = NodePath("AmmoContainer/MagLabel")
+reserve_label = NodePath("AmmoContainer/ReserveLabel")
+
+[node name="WeaponCooldown" type="Timer" parent="." unique_id=1035270004]
+wait_time = 0.12
+one_shot = true
+
+[editable path="Head/Camera3D/Weapons/mp5_rgc"]
+[editable path="Head/Camera3D/Weapons/beretta_rgc"]
+[editable path="Head/Camera3D/Weapons/knife_rgc"]
+[editable path="HUD"]

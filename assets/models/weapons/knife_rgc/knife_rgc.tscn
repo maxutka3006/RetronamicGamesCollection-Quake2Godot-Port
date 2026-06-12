@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cjvcqagyxc7rv"]
+
+[ext_resource type="PackedScene" uid="uid://uagjy1t5li4s" path="res://assets/models/weapons/knife_rgc/knife_rgc.glb" id="1_pj0hb"]
+[ext_resource type="Script" uid="uid://cxahxbknjcynp" path="res://scripts/knife.gd" id="2_eqgko"]
+[ext_resource type="PackedScene" uid="uid://chmwqf6um0f11" path="res://assets/models/impactdecal/impactdecal.tscn" id="3_hqb3x"]
+[ext_resource type="AudioStream" uid="uid://b76txscgpucw0" path="res://assets/sounds/weapons/knife/wall.wav" id="3_y2m3f"]
+[ext_resource type="PackedScene" uid="uid://dfbux6tovs73h" path="res://assets/models/impactparticles/impactparticles.tscn" id="4_uxm73"]
+
+[node name="knife_rgc" unique_id=1523464899 instance=ExtResource("1_pj0hb")]
+script = ExtResource("2_eqgko")
+attack_animations = Array[String](["Attack", "Attack2", "Attack_Full"])
+impact_decal_scene = ExtResource("3_hqb3x")
+impact_particles_scene = ExtResource("4_uxm73")
+bob_frequency = 1.0
+bob_amplitude_vertical = 0.0
+bob_amplitude_horizontal = 0.01
+bob_rotation_amplitude = 0.01
+muzzle_light_enabled = false
+impact_sounds = Array[AudioStream]([ExtResource("3_y2m3f")])
+impact_particle_colors = Array[Color]([Color(0.35031372, 0.35031375, 0.35031357, 1), Color(0.1173548, 0.1173548, 0.1173548, 1)])
+
+[node name="AnimationPlayer" parent="." index="1" unique_id=951010025]
+autoplay = &"Idle"
+
+[node name="KnifeSounds" type="AudioStreamPlayer3D" parent="." index="2" unique_id=1837060803]

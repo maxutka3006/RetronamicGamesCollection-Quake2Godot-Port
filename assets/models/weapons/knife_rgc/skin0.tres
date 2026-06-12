@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d2qyrq6bv5chi"]
+
+[ext_resource type="Texture2D" uid="uid://dvt1ci8tcw4hu" path="res://assets/models/weapons/knife_rgc/knife_rgc_skin0.webp" id="1_8geng"]
+
+[resource]
+resource_name = "skin0"
+cull_mode = 2
+albedo_texture = ExtResource("1_8geng")
+metallic_specular = 0.0
+roughness = 0.0
+texture_filter = 2

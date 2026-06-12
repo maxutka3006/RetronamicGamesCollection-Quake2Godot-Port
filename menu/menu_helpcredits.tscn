@@ -1,0 +1,137 @@
+[gd_scene format=3 uid="uid://b27mwjmp8fi78"]
+
+[ext_resource type="Script" uid="uid://bvh2lo1np7f4c" path="res://scripts/menu_helpcredits.gd" id="1_dc8g8"]
+[ext_resource type="Texture2D" uid="uid://bepo5pf3e35q3" path="res://menu/rgc_splashscreen_43.png" id="2_gjxyk"]
+[ext_resource type="Texture2D" uid="uid://cf8xclmqyfx2b" path="res://assets/godot_icon_withoutbg.svg" id="3_gjxyk"]
+[ext_resource type="Script" uid="uid://cpypb0vtqg7u8" path="res://addons/button-audio-player/button_audio_player.gd" id="4_oh5x2"]
+[ext_resource type="AudioStream" uid="uid://cl2mn1shddmx3" path="res://assets/sounds/misc/menu1.wav" id="5_ewbab"]
+[ext_resource type="AudioStream" uid="uid://ci11mllmmbfhw" path="res://assets/sounds/misc/menu2.wav" id="6_7382r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oh5x2"]
+
+[node name="Menu_HelpCredits" type="Control" unique_id=551364377]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dc8g8")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=418600661]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
+texture = ExtResource("2_gjxyk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1734495770]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -36.0
+offset_right = 395.0
+offset_bottom = 234.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "Original games belong to Retronamic Games
+
+Port Author — [color=yellow]maxutka_3006[/color]
+
+[color=gray]Controls[/color]:
+[color=orange]WASD[/color] — Movement					  [color=orange]H[/color] — Back to Main Menu
+[color=orange]Space/E[/color] — Jump			      				[color=orange]N[/color] — Force Quit (in-game)
+[color=orange]Escape[/color] — Show/Hide Mouse Cursor (in-game)			[color=orange]F11/Alt+Enter[/color] — Toggle Fullscreen
+
+"
+horizontal_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=103684560]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -216.645
+offset_top = 187.0
+offset_right = -166.645
+offset_bottom = 237.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_gjxyk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="." unique_id=1485882054]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = 187.0
+offset_right = 395.0
+offset_bottom = 237.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 7
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Powered by [color=dodger_blue]Godot Engine[/color] (4.6.3)"
+horizontal_alignment = 2
+
+[node name="BackButt" type="Button" parent="." unique_id=102961521]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -385.0
+offset_top = 252.0
+offset_right = -290.0
+offset_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oh5x2")
+text = "< Back"
+
+[node name="ButtonAudioPlayer" type="AudioStreamPlayer" parent="BackButt" unique_id=1246512363]
+script = ExtResource("4_oh5x2")
+audio_down = ExtResource("6_7382r")
+audio_mouse_entered = ExtResource("5_ewbab")
+audio_focus_entered = ExtResource("5_ewbab")
+metadata/_custom_type_script = "uid://cpypb0vtqg7u8"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="." unique_id=1620061178]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = 232.0
+offset_right = 395.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "Game Version: [b]0.0.6[i]"
+horizontal_alignment = 2

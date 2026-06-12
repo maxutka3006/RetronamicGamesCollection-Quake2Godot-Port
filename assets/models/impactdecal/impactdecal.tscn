@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://chmwqf6um0f11"]
+
+[ext_resource type="Texture2D" uid="uid://bopkqg7pyv00d" path="res://assets/models/impactdecal/impactdecal.png" id="1_5hf4f"]
+[ext_resource type="Script" uid="uid://b8uipw0oux4xr" path="res://scripts/impactdecal.gd" id="1_o4x63"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o4x63"]
+transparency = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+albedo_texture = ExtResource("1_5hf4f")
+albedo_texture_force_srgb = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_n8ieg"]
+material = SubResource("StandardMaterial3D_o4x63")
+size = Vector2(0.05, 0.05)
+
+[node name="ImpactDecal" type="Node3D" unique_id=629040623]
+script = ExtResource("1_o4x63")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1969241136]
+mesh = SubResource("QuadMesh_n8ieg")
+
+[node name="LifetimeTimer" type="Timer" parent="." unique_id=310223481]
+wait_time = 10.0
+one_shot = true

@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://c83tkexsovc0q"]
+
+[ext_resource type="Script" uid="uid://drf85yn61ow8j" path="res://scripts/casingshell.gd" id="1_8kyqj"]
+[ext_resource type="Texture2D" uid="uid://dkthyokjc4lj7" path="res://assets/models/casingshell/skin0.png" id="1_u1ilt"]
+[ext_resource type="ArrayMesh" uid="uid://b42ug5u8bd48p" path="res://assets/models/casingshell/shell.obj" id="2_8kyqj"]
+[ext_resource type="AudioStream" uid="uid://fbpss4rdrsiy" path="res://assets/sounds/weapons/shell1.wav" id="2_jqfjo"]
+[ext_resource type="AudioStream" uid="uid://cx1cvyt7slmv2" path="res://assets/sounds/weapons/shell2.wav" id="3_658pm"]
+[ext_resource type="AudioStream" uid="uid://cx8n5eyg0b22f" path="res://assets/sounds/weapons/shell3.wav" id="4_k8j3f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub18"]
+shading_mode = 0
+albedo_texture = ExtResource("1_u1ilt")
+texture_filter = 0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_u1ilt"]
+points = PackedVector3Array(-0.358734, 0.00422, -0.358734, -0.358734, 0.00422, 0.35873395, -0.358734, 2.39578, -0.358734, 0.35873395, 0.00422, -0.358734, 0.35873395, 0.00422, 0.35873395, -0.358734, 2.39578, 0.35873395, 0.35873395, 2.39578, -0.358734, 0.35873395, 2.39578, 0.35873395)
+
+[node name="Casing" type="Node3D" unique_id=1050420348]
+script = ExtResource("1_8kyqj")
+impact_sounds = Array[AudioStream]([ExtResource("2_jqfjo"), ExtResource("3_658pm"), ExtResource("4_k8j3f")])
+
+[node name="Body" type="RigidBody3D" parent="." unique_id=427241988]
+mass = 0.05
+contact_monitor = true
+max_contacts_reported = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=74335002]
+transform = Transform3D(0.015, 0, 0, 0, 0.015, 0, 0, 0, 0.015, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_hub18")
+cast_shadow = 0
+mesh = ExtResource("2_8kyqj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body" unique_id=1809446963]
+transform = Transform3D(0.015, 0, 0, 0, 0.015, 0, 0, 0, 0.015, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_u1ilt")
+
+[node name="LifetimeTimer" type="Timer" parent="." unique_id=1332895329]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="ImpactSound" type="AudioStreamPlayer3D" parent="." unique_id=74540598]

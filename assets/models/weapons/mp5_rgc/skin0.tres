@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://msjoui05dmg1"]
+
+[ext_resource type="Texture2D" uid="uid://vdk182yslgkp" path="res://assets/models/weapons/mp5_rgc/mp5_rgc_skin0.webp" id="1_gohw1"]
+
+[resource]
+resource_name = "skin0"
+cull_mode = 2
+albedo_texture = ExtResource("1_gohw1")
+metallic_specular = 0.0
+roughness = 0.0
+texture_filter = 2

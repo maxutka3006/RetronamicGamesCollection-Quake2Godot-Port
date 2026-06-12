@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://c8ggjdgjadilh"]
+
+[ext_resource type="PackedScene" uid="uid://cfda2fy02q28v" path="res://assets/models/weapons/mp5_rgc/mp5_rgc.glb" id="1_gmrgc"]
+[ext_resource type="AudioStream" uid="uid://d2jte338kl7t6" path="res://assets/sounds/weapons/noammo.wav" id="2_3dj02"]
+[ext_resource type="Script" uid="uid://cmybb170reeyy" path="res://scripts/weapon.gd" id="2_84qsr"]
+[ext_resource type="PackedScene" uid="uid://c83tkexsovc0q" path="res://assets/models/casingshell/casingshell.tscn" id="3_jsvs6"]
+[ext_resource type="PackedScene" uid="uid://chmwqf6um0f11" path="res://assets/models/impactdecal/impactdecal.tscn" id="4_5nn8o"]
+[ext_resource type="PackedScene" uid="uid://dfbux6tovs73h" path="res://assets/models/impactparticles/impactparticles.tscn" id="5_yodco"]
+[ext_resource type="AudioStream" uid="uid://1e0ns0eju7nl" path="res://assets/sounds/weapons/ric1.wav" id="7_yodco"]
+[ext_resource type="AudioStream" uid="uid://d3mr548x7g0j5" path="res://assets/sounds/weapons/ric2.wav" id="8_mpegm"]
+[ext_resource type="AudioStream" uid="uid://hnngwnyvuluj" path="res://assets/sounds/weapons/ric3.wav" id="9_upyqd"]
+
+[node name="mp5_rgc" unique_id=1216678636 node_paths=PackedStringArray("model") instance=ExtResource("1_gmrgc")]
+script = ExtResource("2_84qsr")
+fire_rate = 0.1
+max_magazine = 30
+reserve_ammo = 999
+automatic = true
+reload_time = 2.5
+casing_scene = ExtResource("3_jsvs6")
+impact_decal_scene = ExtResource("4_5nn8o")
+impact_particles_scene = ExtResource("5_yodco")
+bob_frequency = 1.0
+bob_amplitude_vertical = 0.0
+bob_amplitude_horizontal = 0.01
+bob_rotation_amplitude = 0.01
+muzzle_light_energy = 15.0
+muzzle_light_duration = 0.1
+casing_eject_velocity = 3.0
+casing_eject_direction = Vector3(1.5, 1.1, 2.5)
+no_ammo_sound = ExtResource("2_3dj02")
+impact_sounds = Array[AudioStream]([ExtResource("7_yodco"), ExtResource("8_mpegm"), ExtResource("9_upyqd")])
+impact_sound_chance = 0.75
+impact_particle_colors = Array[Color]([Color(1, 0.53333336, 0, 1), Color(0.53333336, 0.53333336, 0.53333336, 1), Color(0, 0, 0, 1), Color(1, 0.8, 0, 1)])
+model = NodePath("mesh0")
+
+[node name="AnimationPlayer" parent="." index="1" unique_id=240929133]
+autoplay = &"Idle"
+
+[node name="MuzzleLight" type="OmniLight3D" parent="." index="2" unique_id=956162568]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37854853, 0.17849946, 0.081259154)
+light_color = Color(0.98715967, 0.7183914, 1.540184e-06, 1)
+light_energy = 0.0
+light_specular = 0.0
+omni_range = 12.0
+
+[node name="CasingEjectPoint" type="Marker3D" parent="." index="3" unique_id=2002925722]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0.18953413, -0.058379002, 0.102591895)
+
+[node name="WeaponSounds" type="AudioStreamPlayer3D" parent="." index="4" unique_id=1547766545]
+
+[node name="NoAmmoAudio" type="AudioStreamPlayer3D" parent="." index="5" unique_id=1062149888]
+stream = ExtResource("2_3dj02")

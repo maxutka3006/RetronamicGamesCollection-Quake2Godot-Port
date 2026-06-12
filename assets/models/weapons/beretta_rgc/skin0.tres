@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cvwcbyapoknlf"]
+
+[ext_resource type="Texture2D" uid="uid://chs8n3hj5cjup" path="res://assets/models/weapons/beretta_rgc/beretta_rgc_skin0.webp" id="1_lq35r"]
+
+[resource]
+resource_name = "skin0"
+cull_mode = 2
+albedo_texture = ExtResource("1_lq35r")
+metallic_specular = 0.0
+roughness = 0.0
+texture_filter = 2

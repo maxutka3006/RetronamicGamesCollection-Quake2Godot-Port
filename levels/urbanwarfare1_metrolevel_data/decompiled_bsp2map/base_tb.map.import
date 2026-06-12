@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://4wxhd268urtv"
+path="res://.godot/imported/base_tb.map-16710a52cfdf597a066c3075065bf786.tres"
+
+[deps]
+
+source_file="res://levels/urbanwarfare1_metrolevel_data/decompiled_bsp2map/base_tb.map"
+dest_files=["res://.godot/imported/base_tb.map-16710a52cfdf597a066c3075065bf786.tres"]
+
+[params]
+
