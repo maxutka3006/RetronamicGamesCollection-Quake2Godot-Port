@@ -116,6 +116,10 @@ var _was_shooting: bool = false
 var weapons: Array[Weapon] = []
 var active_weapon_index: int = -1
 
+# Камерная отдача
+var _camera_recoil_rotation: Vector3 = Vector3.ZERO
+var _camera_recoil_speed: float = 8.0
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -258,6 +262,17 @@ func _process(delta: float) -> void:
 	_update_sway(delta)
 	_update_camera_roll(delta)
 	_handle_gamepad_look(delta)
+
+	# Визуальная отдача камеры (применяется к текущему повороту головы)
+	if _camera_recoil_rotation.length_squared() > 0.0001:
+		head.rotation.x += _camera_recoil_rotation.x
+		head.rotation.y += _camera_recoil_rotation.y
+		head.rotation.z += _camera_recoil_rotation.z
+		# Плавный возврат к нулю
+		_camera_recoil_rotation = _camera_recoil_rotation.lerp(Vector3.ZERO, _camera_recoil_speed * delta)
+		# Если почти вернулись – обнуляем
+		if _camera_recoil_rotation.length() < 0.001:
+			_camera_recoil_rotation = Vector3.ZERO
 
 	_mouse_delta_this_frame = Vector2.ZERO
 	_process_weapon_input()
@@ -608,3 +623,8 @@ func _result_travel(data: Dictionary) -> Vector3:
 
 func _result_normal(data: Dictionary) -> Vector3:
 	return data["normal"]
+
+# -------------------------------------------------- Камерная отдача (вызывается из оружия)
+func add_camera_recoil(pitch: float, yaw: float, roll: float, return_speed: float = 8.0) -> void:
+	_camera_recoil_rotation += Vector3(pitch, yaw, roll)
+	_camera_recoil_speed = return_speed

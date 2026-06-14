@@ -59,13 +59,17 @@ target_position = Vector3(0, 0, -100)
 [node name="Weapons" type="Node3D" parent="Head/Camera3D" unique_id=1862844264]
 
 [node name="mp5_rgc" parent="Head/Camera3D/Weapons" unique_id=1216678636 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_0pev8")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.03, 0, 0.055)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.05, 0.009, 0.095)
 visible = false
+visual_recoil_enabled = false
+camera_recoil_pitch = 0.1
 player = NodePath("../../../..")
 camera = NodePath("../..")
 
 [node name="beretta_rgc" parent="Head/Camera3D/Weapons" unique_id=1980472521 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_clacw")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.015, -0.22, 0.025)
+visual_recoil_enabled = false
+camera_recoil_enabled = false
 player = NodePath("../../../..")
 camera = NodePath("../..")
 
@@ -73,6 +77,8 @@ camera = NodePath("../..")
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 visible = false
 knife_range = 4.0
+visual_recoil_enabled = false
+camera_recoil_enabled = false
 player = NodePath("../../../..")
 camera = NodePath("../..")
 model = NodePath("mesh0")
@@ -81,10 +87,11 @@ model = NodePath("mesh0")
 
 [node name="LandingAudio" type="AudioStreamPlayer3D" parent="." unique_id=1452420719]
 
-[node name="HUD" parent="." unique_id=1577912329 node_paths=PackedStringArray("ammo_container", "magazine_label", "reserve_label") instance=ExtResource("7_nxd4c")]
+[node name="HUD" parent="." unique_id=1577912329 node_paths=PackedStringArray("ammo_container", "magazine_label", "reserve_label", "crosshair") instance=ExtResource("7_nxd4c")]
 ammo_container = NodePath("AmmoContainer")
 magazine_label = NodePath("AmmoContainer/MagLabel")
 reserve_label = NodePath("AmmoContainer/ReserveLabel")
+crosshair = NodePath("Crosshair")
 
 [node name="WeaponCooldown" type="Timer" parent="." unique_id=1035270004]
 wait_time = 0.12

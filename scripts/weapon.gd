@@ -68,6 +68,16 @@ class_name Weapon
 @export var block_switch_during_attack: bool = true
 @export var block_switch_on_reload: bool = true
 @export var block_reload_during_fire: bool = true
+@export var block_shoot_during_reload: bool = true
+@export var visual_recoil_enabled: bool = true
+
+# -------------------------------------------------- Экспорт: отдача камеры
+@export_group("Camera Recoil")
+@export var camera_recoil_enabled: bool = true
+@export var camera_recoil_pitch: float = -0.02
+@export var camera_recoil_yaw: float = 0.0
+@export var camera_recoil_roll: float = 0.0
+@export var camera_recoil_return_speed: float = 8.0
 
 # -------------------------------------------------- Экспорт: ссылки
 @export_group("References")
@@ -97,6 +107,10 @@ var _model_default_pos: Vector3
 var _model_default_rot: Vector3
 var _bob_phase: float = 0.0
 var _muzzle_light_timer: float = 0.0
+
+# Визуальная отдача модели
+var _visual_recoil_offset: Vector3 = Vector3.ZERO
+var _visual_recoil_rotation: Vector3 = Vector3.ZERO
 
 # Список названий анимаций, после которых нужно вернуться в Idle
 var attack_anim_names: Array[String] = ["Shoot"]
@@ -168,6 +182,10 @@ func _process(delta: float) -> void:
 		if _reload_timer <= 0.0:
 			_finish_reload()
 
+	# Затухание визуальной отдачи модели
+	_visual_recoil_offset = _visual_recoil_offset.lerp(Vector3.ZERO, 10.0 * delta)
+	_visual_recoil_rotation = _visual_recoil_rotation.lerp(Vector3.ZERO, 10.0 * delta)
+
 	_update_bobbing(delta)
 	_update_muzzle_light(delta)
 
@@ -178,7 +196,7 @@ func _physics_process(delta: float) -> void:
 # ---------- Управление ----------
 func trigger_pressed():
 	_trigger_pressed = true
-	if _is_reloading:
+	if _is_reloading and block_shoot_during_reload:
 		return
 	if automatic:
 		try_fire()
@@ -243,6 +261,15 @@ func try_fire() -> bool:
 	if anim_player and anim_player.has_animation("Shoot"):
 		anim_player.stop()
 		anim_player.play("Shoot")
+
+	# Визуальная отдача модели
+	if visual_recoil_enabled and model:
+		_visual_recoil_offset = Vector3(0.0, 0.02, -0.08)
+		_visual_recoil_rotation = Vector3(-0.02, 0.0, randf_range(-0.01, 0.01))
+
+	# Отдача камеры
+	if camera_recoil_enabled and player:
+		player.add_camera_recoil(camera_recoil_pitch, camera_recoil_yaw, camera_recoil_roll, camera_recoil_return_speed)
 
 	_play_random_sound(shoot_sounds, shoot_audio, shoot_volume_db)
 
@@ -344,7 +371,6 @@ func _spawn_impact_particles(hit_point: Vector3, hit_normal: Vector3):
 	get_tree().root.add_child(particles)
 	particles.global_position = hit_point + hit_normal * 0.05
 
-	# Безопасная ориентация
 	var up = Vector3.UP
 	if abs(hit_normal.dot(Vector3.UP)) > 0.99:
 		up = Vector3.RIGHT
@@ -403,12 +429,12 @@ func _update_bobbing(delta: float) -> void:
 		var target_pos = _model_default_pos + Vector3(horiz, vert, 0.0)
 		var target_rot = _model_default_rot + Vector3(0.0, 0.0, roll)
 
-		model.position = model.position.lerp(target_pos, bob_smoothing * delta)
-		model.rotation = model.rotation.lerp(target_rot, bob_smoothing * delta)
+		model.position = target_pos + _visual_recoil_offset
+		model.rotation = target_rot + _visual_recoil_rotation
 	else:
 		_bob_phase = 0.0
-		model.position = model.position.lerp(_model_default_pos, bob_smoothing * delta)
-		model.rotation = model.rotation.lerp(_model_default_rot, bob_smoothing * delta)
+		model.position = _model_default_pos + _visual_recoil_offset
+		model.rotation = _model_default_rot + _visual_recoil_rotation
 
 func _play_random_sound(sounds: Array, audio_player: AudioStreamPlayer3D, volume_db: float) -> void:
 	if sounds.is_empty() or not audio_player:
@@ -420,8 +446,11 @@ func _play_random_sound(sounds: Array, audio_player: AudioStreamPlayer3D, volume
 func shows_ammo() -> bool:
 	return max_magazine > 0
 
+func is_reloading() -> bool:
+	return _is_reloading
+
 func is_attacking() -> bool:
 	return anim_player and anim_player.is_playing() and anim_player.current_animation in attack_anim_names
 
-func is_reloading() -> bool:
-	return _is_reloading
+func shows_crosshair() -> bool:
+	return true
