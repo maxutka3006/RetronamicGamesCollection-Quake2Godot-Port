@@ -3,41 +3,41 @@ class_name QuakePlayer
 
 const MENU_SCENE_PATH = "res://menu/menu.tscn"
 
-# -------------------------------------------------- Мышь
+# -------------------------------------------------- Mouse
 @export_group("Mouse")
 @export var mouse_sensitivity: float = 0.0025
 
-# -------------------------------------------------- Геймпад
+# -------------------------------------------------- Gamepad
 @export_group("Gamepad")
 @export var gamepad_look_sensitivity: float = 3.0
 @export var invert_gamepad_x: bool = false
 @export var invert_gamepad_y: bool = false
 
-# -------------------------------------------------- Земля
+# -------------------------------------------------- Ground Movement
 @export_group("Ground Movement")
 @export var move_speed: float = 10.0
 @export var ground_accel: float = 10.0
 @export var ground_friction: float = 6.0
 
-# -------------------------------------------------- Воздух
+# -------------------------------------------------- Air Movement
 @export_group("Air Movement")
 @export var air_speed_cap: float = 1.0
 @export var air_accel: float = 70.0
 @export var max_air_speed: float = 30.0
 
-# -------------------------------------------------- Прыжки / Гравитация
+# -------------------------------------------------- Jump / Gravity
 @export_group("Jump / Gravity")
 @export var gravity: float = 24.0
 @export var jump_velocity: float = 7.0
 @export var coyote_time: float = 0.12
 
-# -------------------------------------------------- Ступеньки
+# -------------------------------------------------- Stair Stepping
 @export_group("Stair Stepping")
 @export var step_height: float = 0.45
 @export var step_down_extra: float = 0.12
 @export var step_forward_probe: float = 1.05
 
-# -------------------------------------------------- Пол
+# -------------------------------------------------- Floor
 @export_group("Floor")
 @export var floor_snap: float = 0.35
 @export var floor_angle_degrees: float = 46.0
@@ -57,7 +57,7 @@ const MENU_SCENE_PATH = "res://menu/menu.tscn"
 @export var sway_amount: float = 0.15
 @export var sway_smoothing: float = 8.0
 
-# -------------------------------------------------- Звуки шагов
+# -------------------------------------------------- Footsteps
 @export_group("Footsteps")
 @export var footstep_sounds: Array[AudioStream] = []
 @export var footstep_volume_db: float = -5.0
@@ -65,13 +65,13 @@ const MENU_SCENE_PATH = "res://menu/menu.tscn"
 @export var footstep_distance_variance: float = 0.2
 @export var footstep_min_speed: float = 0.5
 
-# -------------------------------------------------- Звук приземления
+# -------------------------------------------------- Landing
 @export_group("Landing")
 @export var landing_sounds: Array[AudioStream] = []
 @export var landing_volume_db: float = -3.0
 @export var landing_min_speed: float = 1.5
 
-# -------------------------------------------------- Наклон камеры при стрейфе
+# -------------------------------------------------- Camera Roll
 @export_group("Camera Roll")
 @export var camera_roll_enabled: bool = true
 @export var camera_roll_max_angle_degrees: float = 2.0
@@ -81,17 +81,17 @@ const MENU_SCENE_PATH = "res://menu/menu.tscn"
 @export_group("Noclip")
 @export var noclip_speed: float = 15.0
 
-# -------------------------------------------------- Оружие: слоты и стартовое
+# -------------------------------------------------- Weapon Slots & Starting Weapon
 @export_group("Weapon Slots")
 @export var weapon_slot_names: Array[String] = []
 @export var starting_weapon_name: String = "Pistol"
 
-# -------------------------------------------------- Узлы
+# -------------------------------------------------- Nodes
 @onready var head: Node3D = $Head
 @onready var footstep_audio: AudioStreamPlayer3D = $FootstepAudio
 @onready var landing_audio: AudioStreamPlayer3D = $LandingAudio
 
-# -------------------------------------------------- Внутренние переменные
+# -------------------------------------------------- Internal Variables
 var _wish_dir: Vector3 = Vector3.ZERO
 var _was_on_floor: bool = false
 var _snap_to_floor_after_move: bool = false
@@ -112,11 +112,11 @@ var _next_footstep_distance: float = 2.5
 var noclip_enabled: bool = false
 var _was_shooting: bool = false
 
-# --- Система оружия ---
+# --- Weapon System ---
 var weapons: Array[Weapon] = []
 var active_weapon_index: int = -1
 
-# Камерная отдача
+# Camera Recoil
 var _camera_recoil_rotation: Vector3 = Vector3.ZERO
 var _camera_recoil_speed: float = 8.0
 
@@ -143,7 +143,7 @@ func _ready() -> void:
 
 	_find_weapons()
 
-	# Активируем стартовое оружие
+	# Activate starting weapon
 	active_weapon_index = -1
 	if not starting_weapon_name.is_empty():
 		_set_active_weapon_by_name(starting_weapon_name)
@@ -169,7 +169,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			get_tree().change_scene_to_file(MENU_SCENE_PATH)
 		else:
-			push_error("Сцена не найдена: " + MENU_SCENE_PATH)
+			push_error("Scene not found: " + MENU_SCENE_PATH)
 
 	if event.is_action_pressed("noclip"):
 		noclip_enabled = !noclip_enabled
@@ -181,7 +181,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_collision_layer_value(1, true)
 			set_collision_mask_value(1, true)
 
-	# Цифры 1-9: выбор оружия по имени из weapon_slot_names
+	# Weapon slots 1-9
 	if event is InputEventKey and event.pressed and not event.echo:
 		var key = event.keycode
 		if key >= KEY_1 and key <= KEY_9:
@@ -191,14 +191,14 @@ func _unhandled_input(event: InputEvent) -> void:
 				if not target_name.is_empty():
 					_set_active_weapon_by_name(target_name)
 
-	# Колесо мыши
+	# Mouse wheel (change weapon)
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			_cycle_weapon(-1)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_cycle_weapon(1)
 
-	# Бамперы геймпада
+	# Gamepad bumpers
 	if event.is_action_pressed("weapon_next"):
 		_cycle_weapon(1)
 	if event.is_action_pressed("weapon_prev"):
@@ -263,7 +263,7 @@ func _process(delta: float) -> void:
 	_update_camera_roll(delta)
 	_handle_gamepad_look(delta)
 
-	# Визуальная отдача камеры (применяется к текущему повороту головы)
+	# Apply camera recoil
 	if _camera_recoil_rotation.length_squared() > 0.0001:
 		head.rotation.x += _camera_recoil_rotation.x
 		head.rotation.y += _camera_recoil_rotation.y
@@ -297,7 +297,7 @@ func _noclip_move(delta: float) -> void:
 
 	global_position += move_dir * noclip_speed * delta
 
-# -------------------------------------------------- Оружие: поиск, переключение, ввод
+# -------------------------------------------------- Weapon Management
 func _find_weapons() -> void:
 	weapons.clear()
 	for child in find_children("*", "Weapon", true, false):
@@ -307,19 +307,19 @@ func _find_weapons() -> void:
 		for w in weapons:
 			w.visible = false
 	else:
-		push_warning("В сцене игрока не найдено ни одного оружия!")
+		push_warning("No weapons found in player scene!")
 
 func _set_active_weapon(index: int) -> void:
 	if index < 0 or index >= weapons.size() or index == active_weapon_index:
 		return
 
-	# Блокировка при перезарядке
+	# Block switching while reloading
 	if active_weapon_index >= 0 and active_weapon_index < weapons.size():
 		var w = weapons[active_weapon_index]
 		if w.block_switch_on_reload and w.is_reloading():
 			return
 
-	# Блокировка при атаке
+	# Block switching while attacking
 	if active_weapon_index >= 0 and active_weapon_index < weapons.size():
 		var w = weapons[active_weapon_index]
 		if w.block_switch_during_attack and w.is_attacking():
@@ -385,7 +385,7 @@ func add_weapon(weapon_name: String, ammo_amount: int = 0) -> bool:
 	_set_active_weapon(weapons.size() - 1)
 	return true
 
-# -------------------------------------------------- Камера
+# -------------------------------------------------- Camera
 func _update_head_rotation() -> void:
 	var head_basis = Basis(Vector3.RIGHT, _pitch) * Basis(Vector3.FORWARD, _roll)
 	head.transform.basis = head_basis
@@ -447,7 +447,7 @@ func _handle_gamepad_look(delta: float) -> void:
 	_pitch += y_dir * look_input.y * gamepad_look_sensitivity * delta
 	_pitch = clampf(_pitch, deg_to_rad(-85.0), deg_to_rad(85.0))
 
-# -------------------------------------------------- Звуки
+# -------------------------------------------------- Sounds
 func _play_footstep() -> void:
 	if footstep_sounds.is_empty():
 		return
@@ -464,7 +464,7 @@ func _play_landing_sound() -> void:
 	landing_audio.volume_db = landing_volume_db
 	landing_audio.play()
 
-# ---------- Движение (Quake) ----------
+# ---------- Quake Movement ----------
 func _update_wish_dir() -> void:
 	var input_dir: Vector2 = Input.get_vector(
 		"move_left",
@@ -512,7 +512,7 @@ func _accelerate(hvel: Vector3, wish_dir: Vector3, wish_speed: float, accel: flo
 	var accel_speed: float = minf(accel * wish_speed * delta, add_speed)
 	return hvel + wish_dir * accel_speed
 
-# ---------- Система ступенек ----------
+# ---------- Stair Stepping ----------
 func _move_with_stair_stepping(delta: float) -> void:
 	var horizontal_vel: Vector3 = Vector3(velocity.x, 0.0, velocity.z)
 	var h_motion: Vector3 = horizontal_vel * delta
@@ -624,7 +624,7 @@ func _result_travel(data: Dictionary) -> Vector3:
 func _result_normal(data: Dictionary) -> Vector3:
 	return data["normal"]
 
-# -------------------------------------------------- Камерная отдача (вызывается из оружия)
+# -------------------------------------------------- Camera Recoil (called from weapon)
 func add_camera_recoil(pitch: float, yaw: float, roll: float, return_speed: float = 8.0) -> void:
 	_camera_recoil_rotation += Vector3(pitch, yaw, roll)
 	_camera_recoil_speed = return_speed

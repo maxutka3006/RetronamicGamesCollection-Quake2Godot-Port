@@ -76,7 +76,6 @@ camera = NodePath("../..")
 [node name="knife_rgc" parent="Head/Camera3D/Weapons" unique_id=1523464899 node_paths=PackedStringArray("player", "camera", "model") instance=ExtResource("12_clacw")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 visible = false
-knife_range = 4.0
 visual_recoil_enabled = false
 camera_recoil_enabled = false
 player = NodePath("../../../..")

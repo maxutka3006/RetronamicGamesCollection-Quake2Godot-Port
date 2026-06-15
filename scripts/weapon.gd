@@ -1,7 +1,8 @@
 extends Node3D
 class_name Weapon
 
-# -------------------------------------------------- Экспорт: стрельба
+# -------------------------------------------------- Export: Shooting
+@export_group("Shooting")
 @export var fire_rate: float = 0.15
 @export var damage: float = 10.0
 
@@ -17,38 +18,39 @@ class_name Weapon
 @export var impact_particles_scene: PackedScene
 @export var impact_decal_scene: PackedScene
 
-# -------------------------------------------------- Экспорт: раскачка (bobbing)
+# -------------------------------------------------- Export: Weapon Bob
 @export_group("Weapon Bob")
 @export var bob_enabled: bool = true
+@export var bob_in_air: bool = true
 @export var bob_frequency: float = 2.0
 @export var bob_amplitude_vertical: float = 0.03
 @export var bob_amplitude_horizontal: float = 0.05
 @export var bob_rotation_amplitude: float = 0.02
 @export var bob_smoothing: float = 10.0
 
-# -------------------------------------------------- Экспорт: вспышка света
+# -------------------------------------------------- Export: Muzzle Light
 @export_group("Muzzle Flash Light")
 @export var muzzle_light_enabled: bool = true
 @export var muzzle_light_energy: float = 8.0
 @export var muzzle_light_duration: float = 0.05
 
-# -------------------------------------------------- Экспорт: гильзы
+# -------------------------------------------------- Export: Casing
 @export_group("Casing")
 @export var casing_eject_velocity: float = 2.0
 @export var casing_eject_direction: Vector3 = Vector3(1.0, 1.0, 0.0)
 @export var casing_spin_min: float = 5.0
 @export var casing_spin_max: float = 15.0
 
-# -------------------------------------------------- Экспорт: звук пустого магазина
+# -------------------------------------------------- Export: No Ammo Sound
 @export_group("No Ammo")
 @export var no_ammo_sound: AudioStream
 
-# -------------------------------------------------- Экспорт: звуки выстрела (рандомизация)
+# -------------------------------------------------- Export: Shoot Sounds (Randomized)
 @export_group("Shoot Sounds")
 @export var shoot_sounds: Array[AudioStream] = []
 @export var shoot_volume_db: float = 0.0
 
-# -------------------------------------------------- Экспорт: звуки перезарядки (несколько этапов)
+# -------------------------------------------------- Export: Reload Sounds (Multi-Stage)
 @export_group("Reload Sounds")
 @export var reload_start_sounds: Array[AudioStream] = []
 @export var reload_start_volume_db: float = 0.0
@@ -56,14 +58,14 @@ class_name Weapon
 @export var reload_end_volume_db: float = 0.0
 @export var reload_end_delay: float = 0.6
 
-# -------------------------------------------------- Экспорт: звук попадания в поверхность
+# -------------------------------------------------- Export: Impact (Surface Hit)
 @export_group("Impact")
 @export var impact_sounds: Array[AudioStream] = []
 @export var impact_volume_db: float = -5.0
 @export var impact_sound_chance: float = 1.0
 @export var impact_particle_colors: Array[Color] = []
 
-# -------------------------------------------------- Экспорт: продвинутые настройки
+# -------------------------------------------------- Export: Advanced Settings
 @export_group("Advanced")
 @export var block_switch_during_attack: bool = true
 @export var block_switch_on_reload: bool = true
@@ -71,7 +73,7 @@ class_name Weapon
 @export var block_shoot_during_reload: bool = true
 @export var visual_recoil_enabled: bool = true
 
-# -------------------------------------------------- Экспорт: отдача камеры
+# -------------------------------------------------- Export: Camera Recoil
 @export_group("Camera Recoil")
 @export var camera_recoil_enabled: bool = true
 @export var camera_recoil_pitch: float = -0.02
@@ -79,13 +81,13 @@ class_name Weapon
 @export var camera_recoil_roll: float = 0.0
 @export var camera_recoil_return_speed: float = 8.0
 
-# -------------------------------------------------- Экспорт: ссылки
+# -------------------------------------------------- Export: References
 @export_group("References")
 @export var player: QuakePlayer
 @export var camera: Camera3D
 @export var model: Node3D
 
-# -------------------------------------------------- Узлы (опциональные)
+# -------------------------------------------------- Export: Optional Nodes
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 var muzzle_light: OmniLight3D = null
 var casing_point: Marker3D = null
@@ -95,7 +97,7 @@ var reload_start_audio: AudioStreamPlayer3D = null
 var reload_end_audio: AudioStreamPlayer3D = null
 var _impact_audio: AudioStreamPlayer3D = null
 
-# -------------------------------------------------- Состояние
+# -------------------------------------------------- State
 var current_magazine: int = max_magazine
 var _fire_timer: float = 0.0
 var _trigger_pressed: bool = false
@@ -108,17 +110,17 @@ var _model_default_rot: Vector3
 var _bob_phase: float = 0.0
 var _muzzle_light_timer: float = 0.0
 
-# Визуальная отдача модели
+# Visual recoil variables (model)
 var _visual_recoil_offset: Vector3 = Vector3.ZERO
 var _visual_recoil_rotation: Vector3 = Vector3.ZERO
 
-# Список названий анимаций, после которых нужно вернуться в Idle
+# Animation names that trigger return to Idle
 var attack_anim_names: Array[String] = ["Shoot"]
 
 func _ready():
 	current_magazine = max_magazine
 
-	# Опциональные узлы – не вызывают ошибок, если отсутствуют
+	# Initialize optional nodes (no errors if missing)
 	muzzle_light = get_node_or_null("MuzzleLight") as OmniLight3D
 	casing_point = get_node_or_null("CasingEjectPoint") as Marker3D
 	no_ammo_player = get_node_or_null("NoAmmoAudio")
@@ -151,18 +153,18 @@ func _ready():
 		if not anim_player.animation_finished.is_connected(_on_animation_finished):
 			anim_player.animation_finished.connect(_on_animation_finished)
 	else:
-		push_warning("В оружии отсутствует AnimationPlayer!")
+		push_warning("Weapon is missing AnimationPlayer!")
 
 	if model:
 		_model_default_pos = model.position
 		_model_default_rot = model.rotation
 	else:
-		push_warning("Модель оружия не назначена! Bobbing не будет работать.")
+		push_warning("Weapon model not assigned! Bobbing disabled.")
 
 	if muzzle_light:
 		muzzle_light.light_energy = 0.0
 
-	# Автоопределение камеры, если не задана вручную
+	# Auto-detect camera if not manually assigned
 	if not camera:
 		var node = get_parent()
 		while node:
@@ -171,7 +173,7 @@ func _ready():
 				break
 			node = node.get_parent()
 		if not camera:
-			push_warning("Камера не назначена и не найдена автоматически. Стрельба не будет работать.")
+			push_warning("Camera not assigned and not found. Shooting may not work.")
 
 func _process(delta: float) -> void:
 	if _is_reloading:
@@ -182,7 +184,7 @@ func _process(delta: float) -> void:
 		if _reload_timer <= 0.0:
 			_finish_reload()
 
-	# Затухание визуальной отдачи модели
+	# Decay visual recoil
 	_visual_recoil_offset = _visual_recoil_offset.lerp(Vector3.ZERO, 10.0 * delta)
 	_visual_recoil_rotation = _visual_recoil_rotation.lerp(Vector3.ZERO, 10.0 * delta)
 
@@ -193,7 +195,7 @@ func _physics_process(delta: float) -> void:
 	if _fire_timer > 0.0:
 		_fire_timer -= delta
 
-# ---------- Управление ----------
+# ---------- Input Handling ----------
 func trigger_pressed():
 	_trigger_pressed = true
 	if _is_reloading and block_shoot_during_reload:
@@ -262,12 +264,12 @@ func try_fire() -> bool:
 		anim_player.stop()
 		anim_player.play("Shoot")
 
-	# Визуальная отдача модели
+	# Model visual recoil
 	if visual_recoil_enabled and model:
 		_visual_recoil_offset = Vector3(0.0, 0.02, -0.08)
 		_visual_recoil_rotation = Vector3(-0.02, 0.0, randf_range(-0.01, 0.01))
 
-	# Отдача камеры
+	# Camera recoil
 	if camera_recoil_enabled and player:
 		player.add_camera_recoil(camera_recoil_pitch, camera_recoil_yaw, camera_recoil_roll, camera_recoil_return_speed)
 
@@ -283,7 +285,7 @@ func _play_no_ammo_sound():
 		no_ammo_player.stream = no_ammo_sound
 		no_ammo_player.play()
 
-# ---------- Вспышка света ----------
+# ---------- Muzzle Light ----------
 func _trigger_muzzle_light():
 	if muzzle_light_enabled and muzzle_light:
 		muzzle_light.light_energy = muzzle_light_energy
@@ -297,7 +299,7 @@ func _update_muzzle_light(delta: float):
 		if _muzzle_light_timer <= 0.0:
 			muzzle_light.light_energy = 0.0
 
-# ---------- Выброс гильзы ----------
+# ---------- Casing Ejection ----------
 func _eject_casing():
 	if not casing_scene or not casing_point:
 		return
@@ -320,11 +322,11 @@ func _eject_casing():
 		if player:
 			body.add_collision_exception_with(player)
 
-# ---------- Стрельба ----------
+# ---------- Raycast Shooting ----------
 func _fire_raycast():
 	var cam = camera
 	if not cam:
-		push_warning("Камера не назначена в оружии!")
+		push_warning("Camera not assigned in weapon!")
 		return
 
 	var space_state = get_world_3d().direct_space_state
@@ -417,7 +419,7 @@ func _update_bobbing(delta: float) -> void:
 	var on_ground = player.is_on_floor()
 	var speed = player._current_h_speed
 
-	if on_ground and speed > player.headbob_min_speed:
+	if (on_ground or bob_in_air) and speed > player.headbob_min_speed:
 		var freq = bob_frequency * (speed / player.move_speed)
 		_bob_phase += freq * delta * TAU
 		_bob_phase = fmod(_bob_phase, TAU)

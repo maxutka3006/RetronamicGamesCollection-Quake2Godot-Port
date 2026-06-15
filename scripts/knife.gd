@@ -6,12 +6,20 @@ class_name Knife
 
 @export var attack_animations: Array[String] = ["Shoot"]
 
+@export_group("Swing Sounds")
+@export var swing_sounds: Array[AudioStream] = []
+@export var swing_volume_db: float = 0.0
+
+@export_group("Knife Settings")
+@export var knife_fire_rate: float = 0.4
+@export var knife_bob_enabled: bool = true
+
 func _ready():
 	super._ready()
 	infinite_ammo = true
 	automatic = false
-	fire_rate = 0.4
-	bob_enabled = true
+	fire_rate = knife_fire_rate
+	bob_enabled = knife_bob_enabled
 	attack_anim_names = attack_animations
 
 func try_fire() -> bool:
@@ -27,11 +35,13 @@ func try_fire() -> bool:
 			if anim_player.has_animation("Shoot"):
 				anim_player.play("Shoot")
 			else:
-				push_warning("Нет анимации для атаки ножа!")
+				push_warning("No attack animation found for knife!")
 
 	_fire_timer = fire_rate
+	_play_random_sound(swing_sounds, shoot_audio, swing_volume_db)
 	return true
 
+# Called from AnimationPlayer track during attack animation
 func _deal_damage():
 	var cam = camera
 	if not cam:
@@ -43,7 +53,7 @@ func _deal_damage():
 
 	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_dir * knife_range)
 	query.collision_mask = 1
-	query.exclude = [player] if player else []   # <-- исключаем игрока
+	query.exclude = [player] if player else []    # Exclude player from collision
 
 	var result = space_state.intersect_ray(query)
 
@@ -56,8 +66,14 @@ func _deal_damage():
 			_spawn_impact_particles(result.position, result.normal)
 			_spawn_impact_decal(result.position, result.normal)
 
+# Knife does not reload
 func reload():
-	pass   # нож не перезаряжается
+	pass
 
+# Knife does not show ammo
 func shows_ammo() -> bool:
 	return false
+
+# Knife shows crosshair
+func shows_crosshair() -> bool:
+	return true

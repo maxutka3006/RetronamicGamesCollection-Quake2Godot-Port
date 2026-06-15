@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://td5rkgbc5g8h"]
+
+[ext_resource type="Script" uid="uid://bts3xr7adslll" path="res://scripts/player_quakestyle_enhanced.gd" id="1_r4gml"]
+[ext_resource type="AudioStream" uid="uid://xj2yqbhmab5o" path="res://assets/sounds/player/foot1.wav" id="2_jdxxl"]
+[ext_resource type="AudioStream" uid="uid://cnqc6yfekcilx" path="res://assets/sounds/player/foot2.wav" id="3_jlnit"]
+[ext_resource type="AudioStream" uid="uid://m4jojvgrlj38" path="res://assets/sounds/player/foot3.wav" id="4_xwavw"]
+[ext_resource type="AudioStream" uid="uid://8slthudhf338" path="res://assets/sounds/player/foot4.wav" id="5_u7spa"]
+[ext_resource type="AudioStream" uid="uid://belsadosgll5h" path="res://assets/sounds/player/foot5.wav" id="6_jpunh"]
+[ext_resource type="AudioStream" uid="uid://vwj7fxy6c0n1" path="res://assets/sounds/demon/dland2.wav" id="7_mxx70"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2a05q"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_qux0b"]
+margin = 0.5
+slide_on_slope = true
+
+[node name="Player_Ghost" type="CharacterBody3D" unique_id=668051215]
+floor_stop_on_slope = false
+floor_snap_length = 0.35
+safe_margin = 0.03
+script = ExtResource("1_r4gml")
+jump_velocity = 8.0
+headbob_frequency = 1.0
+headbob_amp_vertical = 0.1
+headbob_amp_horizontal = 0.1
+sway_enabled = false
+footstep_sounds = Array[AudioStream]([ExtResource("2_jdxxl"), ExtResource("3_jlnit"), ExtResource("4_xwavw"), ExtResource("5_u7spa"), ExtResource("6_jpunh")])
+footstep_distance = 4.0
+landing_sounds = Array[AudioStream]([ExtResource("7_mxx70")])
+landing_volume_db = -5.0
+camera_roll_max_angle_degrees = 2.5
+noclip_speed = 1.0
+starting_weapon_name = ""
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1066230820]
+shape = SubResource("CapsuleShape3D_2a05q")
+
+[node name="TWForThisShittyStairStepping" type="CollisionShape3D" parent="." unique_id=2094356198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, -0.43, -0.851)
+shape = SubResource("SeparationRayShape3D_qux0b")
+disabled = true
+
+[node name="Head" type="Node3D" parent="." unique_id=779282216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.3)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=88930222]
+fov = 90.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D" unique_id=156521483]
+enabled = false
+target_position = Vector3(0, 0, -100)
+
+[node name="FootstepAudio" type="AudioStreamPlayer3D" parent="." unique_id=1256411315]
+
+[node name="LandingAudio" type="AudioStreamPlayer3D" parent="." unique_id=1452420719]
+
+[node name="WeaponCooldown" type="Timer" parent="." unique_id=1035270004]
+wait_time = 0.12
+one_shot = true

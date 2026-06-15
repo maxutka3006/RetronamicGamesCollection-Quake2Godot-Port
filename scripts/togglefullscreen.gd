@@ -8,8 +8,8 @@ func _toggle_fullscreen() -> void:
 	var current_mode = DisplayServer.window_get_mode()
 	
 	if current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN:
-		# Возвращаемся в оконный режим
+		# Return to windowed mode
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	else:
-		# Переходим в полноэкранный режим
+		# Toggle fullscreen mode
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)

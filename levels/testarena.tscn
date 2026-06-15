@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bjjjkgxdll53o"]
 
 [ext_resource type="PackedScene" uid="uid://pb6jpm7507b4" path="res://scripts/player.tscn" id="1_p0i7o"]
+[ext_resource type="Script" uid="uid://2dtnd2qd21va" path="res://scripts/flickeringlight3d.gd" id="2_52cs0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ma1cl"]
 
@@ -123,6 +124,20 @@ shadow_enabled = true
 shadow_opacity = 0.99
 omni_range = 30.0
 omni_attenuation = 0.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=1303441812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.18476, 4.889534, 0)
+script = ExtResource("2_52cs0")
+min_energy = 0.0
+max_energy = 8.0
+flicker_speed = 15.0
+flicker_smoothness = 0.0
+
+[node name="Label3D" type="Label3D" parent="OmniLight3D2" unique_id=309647572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2304668, 0)
+pixel_size = 0.02
+billboard = 1
+text = "Flickering Light Test"
 
 [editable path="Player"]
 [editable path="Player/Head/Camera3D/Weapons/mp5_rgc"]

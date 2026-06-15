@@ -133,5 +133,5 @@ offset_bottom = 256.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
-text = "Game Version: [b]0.0.6[i]"
+text = "Game Version: [b]0.0.7[i]"
 horizontal_alignment = 2

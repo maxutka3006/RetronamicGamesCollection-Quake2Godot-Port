@@ -1,6 +1,7 @@
 extends Control
 
-# Путь к сцене, которую нужно запустить (укажите свой)
+# Scene paths
+const LOADING_SCENE_PATH = "res://menu/loading_screen.tscn"
 const GAME_SCENE_PATH = "res://levels/urbanwarfare1_metrolevel.tscn"
 const MENUHELPCREDITS_SCENE_PATH = "res://menu/menu_helpcredits.tscn"
 const TESTARENA_SCENE_PATH = "res://levels/testarena.tscn"
@@ -12,31 +13,31 @@ const TESTARENA_SCENE_PATH = "res://levels/testarena.tscn"
 
 
 func _ready():
-	# Берём фокус на первой кнопке, чтобы курсор сразу активен
+	# Grab focus for keyboard/gamepad navigation
 	# start_button.grab_focus()
 
-	# Подключаем сигналы кнопок
+	# Connect button pressed sounds
 	start_button.pressed.connect(_on_start_pressed)
 	helpcredits_button.pressed.connect(_on_helpcredits_pressed)
 	testarena_button.pressed.connect(_on_testarena_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
-	$VBoxContainer/StartGame.grab_focus()
+	start_button.grab_focus()
 
 
 func _on_start_pressed():
 	GameState.next_scene = GAME_SCENE_PATH
-	get_tree().change_scene_to_file("res://menu/loading_screen.tscn")
+	get_tree().change_scene_to_file(LOADING_SCENE_PATH)
 
 func _on_helpcredits_pressed():
 	if ResourceLoader.exists(MENUHELPCREDITS_SCENE_PATH):
 		get_tree().change_scene_to_file(MENUHELPCREDITS_SCENE_PATH)
 	else:
-		push_error("Сцена не найдена: " + MENUHELPCREDITS_SCENE_PATH)
+		push_error("Scene not found: " + MENUHELPCREDITS_SCENE_PATH)
 
 func _on_testarena_pressed():
 	GameState.next_scene = TESTARENA_SCENE_PATH
-	get_tree().change_scene_to_file("res://menu/loading_screen.tscn")
+	get_tree().change_scene_to_file(LOADING_SCENE_PATH)
 
 func _on_quit_pressed():
-	# Выход из игры
+	# Quit: exit application
 	get_tree().quit()
