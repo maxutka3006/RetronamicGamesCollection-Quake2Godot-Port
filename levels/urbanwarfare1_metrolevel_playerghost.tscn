@@ -9602,7 +9602,8 @@ _surfaces = [{
 script = ExtResource("1_uoo45")
 
 [node name="Player_Ghost" parent="." unique_id=668051215 instance=ExtResource("2_uoo45")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.857834, 13.313314, -3.9075756)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.857834, 11.721041, -3.9075756)
+step_forward_probe = 2.0
 
 [node name="SubtitlePlayer" type="Node" parent="." unique_id=1397279959 node_paths=PackedStringArray("audio_player", "subtitle_label")]
 script = ExtResource("3_23fyh")
