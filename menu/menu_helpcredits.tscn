@@ -90,7 +90,7 @@ grow_vertical = 2
 theme_override_constants/outline_size = 7
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
-text = "Powered by [color=dodger_blue]Godot Engine[/color] (4.6.3)"
+text = "Powered by [color=dodger_blue]Godot Engine[/color] (4.7.0)"
 horizontal_alignment = 2
 
 [node name="BackButt" type="Button" parent="." unique_id=102961521]
@@ -133,5 +133,5 @@ offset_bottom = 256.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
-text = "Game Version: [b]0.0.7[i]"
+text = "Game Version: [b]0.0.8[i]"
 horizontal_alignment = 2

@@ -12,10 +12,10 @@ config_version=5
 
 config/name="Retronamic Games Collection"
 config/description="A Godot Engine port of Quake mods that originally ran on Flash, created by Retronamic Games (some levels may have been developed by other contributors)."
-config/version="0.0.7"
+config/version="0.0.8"
 config/tags=PackedStringArray("portedfromflash", "quake", "quakemod")
 run/main_scene="uid://cidx4eo0rlpda"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="uid://c2jaipol0dcgx"
 
@@ -193,5 +193,6 @@ renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_s3tc_bptc=true
 textures/vram_compression/import_etc2_astc=true
 textures/default_filters/anisotropic_filtering_level=4
-limits/opengl/max_lights_per_object=16
+limits/opengl/max_renderable_lights=48
+limits/opengl/max_lights_per_object=48
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

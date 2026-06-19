@@ -66,12 +66,20 @@ camera_recoil_pitch = 0.1
 player = NodePath("../../../..")
 camera = NodePath("../..")
 
+[node name="MuzzleLight" parent="Head/Camera3D/Weapons/mp5_rgc" index="2" unique_id=956162568]
+light_size = 0.1
+omni_range = 20.0
+
 [node name="beretta_rgc" parent="Head/Camera3D/Weapons" unique_id=1980472521 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_clacw")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.015, -0.22, 0.025)
 visual_recoil_enabled = false
 camera_recoil_enabled = false
 player = NodePath("../../../..")
 camera = NodePath("../..")
+
+[node name="MuzzleLight" parent="Head/Camera3D/Weapons/beretta_rgc" index="2" unique_id=1588797863]
+light_size = 0.1
+omni_range = 20.0
 
 [node name="knife_rgc" parent="Head/Camera3D/Weapons" unique_id=1523464899 node_paths=PackedStringArray("player", "camera", "model") instance=ExtResource("12_clacw")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
