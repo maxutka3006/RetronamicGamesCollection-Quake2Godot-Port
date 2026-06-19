@@ -66,6 +66,9 @@ camera_recoil_pitch = 0.1
 player = NodePath("../../../..")
 camera = NodePath("../..")
 
+[node name="mesh0" parent="Head/Camera3D/Weapons/mp5_rgc" index="0" unique_id=674843345]
+cast_shadow = 0
+
 [node name="MuzzleLight" parent="Head/Camera3D/Weapons/mp5_rgc" index="2" unique_id=956162568]
 light_size = 0.1
 omni_range = 20.0
@@ -76,6 +79,9 @@ visual_recoil_enabled = false
 camera_recoil_enabled = false
 player = NodePath("../../../..")
 camera = NodePath("../..")
+
+[node name="mesh0" parent="Head/Camera3D/Weapons/beretta_rgc" index="0" unique_id=352375280]
+cast_shadow = 0
 
 [node name="MuzzleLight" parent="Head/Camera3D/Weapons/beretta_rgc" index="2" unique_id=1588797863]
 light_size = 0.1
@@ -89,6 +95,9 @@ camera_recoil_enabled = false
 player = NodePath("../../../..")
 camera = NodePath("../..")
 model = NodePath("mesh0")
+
+[node name="mesh0" parent="Head/Camera3D/Weapons/knife_rgc" index="0" unique_id=1440164492]
+cast_shadow = 0
 
 [node name="FootstepAudio" type="AudioStreamPlayer3D" parent="." unique_id=1256411315]
 

@@ -14,6 +14,7 @@ image = SubResource("Image_hvvkb")
 
 [resource]
 albedo_texture = SubResource("ImageTexture_kngyb")
-metallic = 1.0
+albedo_texture_force_srgb = true
 metallic_specular = 0.0
+roughness = 0.0
 texture_filter = 2
